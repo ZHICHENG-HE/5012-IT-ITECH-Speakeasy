@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speakeasy - Teacher Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/teacher-dashboard.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Speakeasy</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="login.html" class="nav-login">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="teacher-dashboard">
+        <div class="sidebar">
+            <div class="user-info">
+                <h3 id="teacherName">Loading...</h3>
+                <p id="teacherEmail">Loading...</p>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <h1>Teacher Dashboard</h1>
+            
+            <div class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="actions-grid">
+                    <a href="messages.html" class="action-btn">Messages</a>
+                    <a href="teachercourse.html" class="action-btn">My Courses</a>
+                    <a href="assignmentpost.html" class="action-btn">Post Assignment</a>
+                </div>
+            </div>
+
+            <div class="courses-section">
+                <h2>My Courses</h2>
+                <div class="course-list" id="dashboardCoursesList">
+                    <p style="padding: 15px; color: #666;">Loading courses...</p>
+                </div>
+                <a href="teachercourse.html" class="view-all">View all courses →</a>
+            </div>
+
+            <div class="assignments-section">
+                <h2>Recent Submissions</h2>
+                <div class="assignment-list" id="dashboardAssignmentsList">
+                    <p style="padding: 15px; color: #666;">Loading submissions...</p>
+                </div>
+                <a href="teacher-grade.html" class="view-all">View all submissions →</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/teacher-dashboard.js"></script>
+</body>
+</html>
