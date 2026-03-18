@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speakeasy - Vocabulary Learning</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/vocabulary.css">
+    <!-- Minor formatting tweak -->
+    <style>
+        .vocab-card {
+            height: auto !important;
+            min-height: 500px;
+            max-width: 700px !important;
+            padding: 40px !important;
+            margin-top: 40px !important;
+        }
+        #newWordInput, #newMeaningInput {
+            min-width: 150px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Speakeasy</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="student-dashboard.html">Dashboard</a></li>
+                <li><a href="login.html" class="nav-login">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="vocab-container">
+        <div class="vocab-card">
+            <h2>Vocabulary Learning</h2>
+            <!-- Add word -->
+            <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px dashed #eee;">
+                <h3 style="font-size: 15px; color: #666; margin-bottom: 10px;">➕ Add New Word</h3>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="newWordInput" placeholder="English Word" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                    <input type="text" id="newMeaningInput" placeholder="What it Meaning" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
+                    <button id="addNewWordBtn" style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">Add</button>
+                </div>
+            </div>
+            <!-- Word Display -->
+            <div class="word-display" id="wordDisplay">
+                <!-- Word will be displayed here -->
+            </div>
+
+            <!-- Answer Input -->
+            <div class="answer-section">
+                <input type="text" id="answerInput" placeholder="Enter meaning" class="answer-input">
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button id="dontKnowBtn" class="vocab-btn dont-know">Don't Know</button>
+                <button id="checkBtn" class="vocab-btn check">Check</button>
+                <button id="nextBtn" class="vocab-btn next">Next →</button>
+            </div>
+
+            <!-- Feedback Message -->
+            <div id="feedbackMessage" class="feedback-message"></div>
+        </div>
+    </div>
+
+    <script src="js/vocabulary.js"></script>
+</body>
+</html>
