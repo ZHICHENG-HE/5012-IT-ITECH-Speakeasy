@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speakeasy - Student Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/studentdashboard.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Speakeasy</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="login.html" class="nav-login">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="dashboard">
+        <!-- Sidebar with user info -->
+        <div class="sidebar">
+            <div class="user-info">
+                <h3>Loading...</h3>
+                <p>Fetching user data</p>
+            </div>
+        </div>
+
+        <!-- Main dashboard content -->
+        <div class="main-content">
+            <!-- Progress Bar -->
+            <div class="progress-section">
+                <h2>Your Progress</h2>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 0%;">0%</div>
+                </div>
+                <p class="progress-text">Overall course completion</p>
+            </div>
+
+            <!-- Upcoming Deadlines -->
+            <div class="deadlines-section">
+                <h2>⚠️ Upcoming Deadlines</h2>
+                <div class="deadline-list">
+                    <p style="color: #888; padding: 10px 0; font-style: italic;">Loading deadlines...</p>
+                </div>
+            </div>
+
+            <!-- My Courses -->
+            <div class="courses-section">
+                <h2>My Courses</h2>
+                <div class="course-list">
+                    <p style="color: #888; padding: 10px 0; font-style: italic;">Loading courses...</p>
+                </div>
+                <a href="courses.html" class="view-all">View all courses →</a>
+            </div>
+            
+            <!-- Quick Links -->
+            <div class="quick-links">
+               <h2>Quick Access</h2>
+               <div class="links-grid">
+                   <a href="courses.html" class="quick-link">Courses</a>
+                   <a href="assignments.html" class="quick-link">Assignments</a>
+                   <a href="vocabulary.html" class="quick-link">Vocabulary</a>
+                   <a href="messages.html" class="quick-link">Messages</a>
+               </div>
+          </div>
+        </div>
+    </div>
+
+    <script src="js/studentdashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speakeasy - My Courses</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/courses.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Speakeasy</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html" class="active">Courses</a></li>
+                <li><a href="student-dashboard.html">Dashboard</a></li>
+                <li><a href="login.html" class="nav-login">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="courses-container">
+        <!-- Header -->
+        <div class="courses-header">
+            <h1>My Courses</h1>
+            <p>Continue your English learning journey</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-section">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search courses...">
+            <select id="levelFilter" class="level-filter">
+                <option value="all">All Levels</option>
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+            </select>
+        </div>
+
+        <!-- Courses Grid -->
+        <div class="courses-grid" id="coursesGrid">
+            <!-- Courses will be loaded here by JavaScript -->
+        </div>
+    </div>
+
+    <script src="js/courses.js"></script>
+</body>
+</html>
