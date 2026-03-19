@@ -180,3 +180,26 @@
         background: #f5f5f5;
     }
 }
+
+/* Switch login button */
+.toggle-mode-wrapper {
+    text-align: center; 
+    margin-top: 20px; 
+    font-size: 0.9rem; 
+    color: #666;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.toggle-mode-wrapper:hover {
+    opacity: 0.8;
+}
+
+.toggle-link {
+    color: #2196F3;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none !important;
+}

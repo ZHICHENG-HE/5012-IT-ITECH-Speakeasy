@@ -193,3 +193,17 @@
         grid-template-columns: 1fr;
     }
 }
+
+.empty-text {
+    padding: 15px;
+    color: #888;
+}
+
+.error-text {
+    padding: 15px;
+    color: #ff4757;
+}
+
+.assignment-title-text {
+    font-weight: bold;
+}

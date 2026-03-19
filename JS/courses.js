@@ -10,14 +10,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load courses
     loadCourses();
-    
     // Setup search and filter
     setupSearchAndFilter();
 });
 
+let allCoursesData = [];
+
 // Load courses from Django Back-end
 async function loadCourses() {
     const coursesGrid = document.getElementById('coursesGrid');
+    const coursesEmpty = document.getElementById('coursesEmpty');
+    const coursesError = document.getElementById('coursesError');
+
     if (!coursesGrid) return;
 
     try {
@@ -38,91 +42,82 @@ async function loadCourses() {
         }
 
         const realCourses = await response.json();
-        coursesGrid.innerHTML = '';
-        
-        if (realCourses.length === 0) {
-            coursesGrid.innerHTML = `
-                <div class="no-results">
-                    <p>No courses found. Teacher needs to add some!</p>
-                </div>
-            `;
-            return;
-        }
 
         // Put data to card
-        realCourses.forEach(course => {
-            const courseDataForUI = {
+        allCoursesData = realCourses.map(course => ({
                 id: course.id,
                 title: course.title,
                 description: course.description,
-                level: 'intermediate', // 暂时写死
+                level: course.level || 'Universal',
                 image: 'https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400',
                 modules: 12,
                 duration: '20 hours',
                 progress: 0,
-                completed: false
-            };
+            }));
             
-            const card = createCourseCard(courseDataForUI);
-            coursesGrid.appendChild(card);
-        });
+            renderCourses(allCoursesData);
 
     } catch (error) {
         console.error('Error fetching courses:', error);
-        coursesGrid.innerHTML = '<p class="error">Error loading courses from server.</p>';
+        coursesGrid.innerHTML = '';
+        coursesEmpty.style.display = 'none';
+        coursesError.style.display = 'block';
     }
 }
 
-// Create course card element
-function createCourseCard(course) {
-    const card = document.createElement('div');
-    card.className = 'course-card';
+// Rendering
+function renderCourses(courses) {
+    const coursesGrid = document.getElementById('coursesGrid');
+    const coursesEmpty = document.getElementById('coursesEmpty');
+    const coursesError = document.getElementById('coursesError');
+    const template = document.getElementById('courseCardTemplate');
     
-    // Level class for styling
-    const levelClass = `level-${course.level}`;
+    coursesGrid.innerHTML = '';
+    coursesError.style.display = 'none';
     
-    // Level display text
-    const levelText = course.level.charAt(0).toUpperCase() + course.level.slice(1);
-    
-    // Button text based on progress
-    let btnText = 'Continue Learning';
-    let btnClass = 'course-btn';
-    
-    if (course.progress === 100) {
-        btnText = '✓ Completed';
-        btnClass = 'course-btn completed';
-    } else if (course.progress === 0) {
-        btnText = 'Start Course';
+    if (courses.length === 0) {
+        coursesEmpty.style.display = 'block';
+        return;
     }
-    
-    card.innerHTML = `
-        <div class="course-image" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('${course.image}')">
-            <span class="course-level ${levelClass}">${levelText}</span>
-        </div>
-        <div class="course-content">
-            <h3 class="course-title">${course.title}</h3>
-            <p class="course-description">${course.description}</p>
-            
-            <div class="course-meta">
-                <span>📚 ${course.modules} modules</span>
-                <span>⏱️ ${course.duration}</span>
-            </div>
-            
-            <div class="course-progress">
-                <div class="progress-text">
-                    <span>Progress</span>
-                    <span>${course.progress}%</span>
-                </div>
-                <div class="progress-bar-small">
-                    <div class="progress-fill" style="width: ${course.progress}%"></div>
-                </div>
-            </div>
-            
-            <a href="course-detail.html?id=${course.id}" class="${btnClass}">${btnText}</a>
-        </div>
-    `;
-    
-    return card;
+    coursesEmpty.style.display = 'none';
+
+    courses.forEach(course => {
+        const clone = template.content.cloneNode(true);
+        
+        // Cover image
+        const imageDiv = clone.querySelector('.course-image');
+        imageDiv.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('${course.image}')`;
+        
+        // Difficulty Badge
+        const levelSpan = clone.querySelector('.course-level');
+        levelSpan.textContent = course.level.charAt(0).toUpperCase() + course.level.slice(1);
+        levelSpan.classList.add(`level-${course.level}`);
+        
+        // Text
+        clone.querySelector('.course-title').textContent = course.title;
+        clone.querySelector('.course-description').textContent = course.description;
+        clone.querySelector('.course-modules').textContent = `📚 ${course.modules} modules`;
+        clone.querySelector('.course-duration').textContent = `⏱️ ${course.duration}`;
+        
+        // progress bar
+        clone.querySelector('.progress-percent').textContent = `${course.progress}%`;
+        clone.querySelector('.progress-fill').style.width = `${course.progress}%`;
+        
+        // Button
+        const btn = clone.querySelector('.course-btn');
+        btn.href = `course-detail.html?id=${course.id}`;
+        
+        if (course.progress === 100) {
+            btn.textContent = '✓ Completed';
+            btn.classList.add('completed');
+        } else if (course.progress === 0) {
+            btn.textContent = 'Start Course';
+        } else {
+            btn.textContent = 'Continue Learning';
+        }
+        
+        coursesGrid.appendChild(clone);
+    });
 }
 
 // Setup search and filter
@@ -134,11 +129,10 @@ function setupSearchAndFilter() {
         const searchTerm = searchInput.value.toLowerCase();
         const level = levelFilter.value;
         
-        const filtered = coursesData.filter(course => {
+        const filtered = allCoursesData.filter(course => {
             // Search filter
             const matchesSearch = course.title.toLowerCase().includes(searchTerm) ||
-                                 course.description.toLowerCase().includes(searchTerm);
-            
+                                    course.description.toLowerCase().includes(searchTerm);         
             // Level filter
             const matchesLevel = level === 'all' || course.level === level;
             
@@ -150,9 +144,4 @@ function setupSearchAndFilter() {
     
     searchInput.addEventListener('input', filterCourses);
     levelFilter.addEventListener('change', filterCourses);
-}
-
-// Get course by ID (for course detail page)
-function getCourseById(id) {
-    return coursesData.find(course => course.id === parseInt(id));
 }

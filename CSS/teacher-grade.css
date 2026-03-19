@@ -1,0 +1,119 @@
+/* Grade form design */
+.submission-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.submission-info {
+    flex: 1;
+    padding-right: 20px;
+}
+
+.submission-title {
+    margin: 0 0 8px 0;
+    color: #2c3e50;
+}
+
+.submission-student {
+    margin: 0;
+    color: #555;
+    font-size: 14px;
+}
+
+.submission-time {
+    margin: 5px 0 0 0;
+    color: #888;
+    font-size: 13px;
+}
+
+.empty-submissions-box {
+    background: white;
+    padding: 30px;
+    text-align: center;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    color: #666;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* Graded form */
+.graded-box {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #e8f5e9;
+    border-radius: 5px;
+    border-left: 4px solid #4CAF50;
+}
+
+.graded-score {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.graded-feedback {
+    margin: 5px 0 0 0;
+    color: #555;
+    font-size: 14px;
+}
+
+/* Grading form */
+.grading-form {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.grade-input {
+    width: 100px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.feedback-input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.save-grade-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.save-grade-btn:hover {
+    background-color: #45a049;
+}
+
+/* Download button */
+.download-btn {
+    background-color: #2196F3;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.download-btn:hover {
+    background-color: #1976d2;
+    transform: translateY(-2px);
+}

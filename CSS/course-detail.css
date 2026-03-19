@@ -194,3 +194,51 @@
         margin-bottom: 0.5rem;
     }
 }
+
+/* Error */
+.error-text {
+    color: #ff4757;
+    padding: 20px;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.instructor-text {
+    color: #4CAF50 !important;
+    font-weight: bold;
+}
+
+.watch-btn {
+    background-color: #2196F3;
+    color: white;
+    padding: 8px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.watch-btn:hover {
+    background-color: #1976D2;
+    transform: translateY(-2px);
+}
+
+.module-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.module-number-box {
+    background: #f5f5f5;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #666;
+    font-size: 1.1rem;
+}

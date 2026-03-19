@@ -43,21 +43,39 @@
 
             <div class="courses-section">
                 <h2>My Courses</h2>
-                <div class="course-list" id="dashboardCoursesList">
-                    <p style="padding: 15px; color: #666;">Loading courses...</p>
-                </div>
+                <p id="coursesEmptyState" class="empty-text" style="display: none;">No courses created yet.</p>
+                <p id="coursesErrorState" class="error-text" style="display: none;"></p>
+                
+                <div class="course-list" id="dashboardCoursesList"></div>
                 <a href="teachercourse.html" class="view-all">View all courses →</a>
             </div>
 
             <div class="assignments-section">
                 <h2>Recent Submissions</h2>
-                <div class="assignment-list" id="dashboardAssignmentsList">
-                    <p style="padding: 15px; color: #666;">Loading submissions...</p>
-                </div>
+                
+                <p id="submissionsEmptyState" class="empty-text" style="display: none;">No recent submissions. 🎉</p>
+                <p id="submissionsErrorState" class="error-text" style="display: none;"></p>
+                
+                <div class="assignment-list" id="dashboardAssignmentsList"></div>
                 <a href="teacher-grade.html" class="view-all">View all submissions →</a>
             </div>
         </div>
-    </div>
+    </div> <template id="dashboardCourseTemplate">
+        <div class="course-item">
+            <span class="course-title-text"></span>
+            <a href="teachercourse.html" class="course-link">View →</a>
+        </div>
+    </template>
+
+    <template id="dashboardSubmissionTemplate">
+        <div class="assignment-item">
+            <div class="assignment-info">
+                <span class="assignment-title-text"></span>
+                <span class="student-count"></span>
+            </div>
+            <a href="teacher-grade.html" class="assignment-link">Grade →</a>
+        </div>
+    </template>
 
     <script src="js/teacher-dashboard.js"></script>
 </body>

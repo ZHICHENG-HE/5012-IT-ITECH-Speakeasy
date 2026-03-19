@@ -10,13 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Update user info
-    const userInfoDiv = document.querySelector('.user-info');
-    if (userInfoDiv) {
-        userInfoDiv.innerHTML = `
-            <h3>${user.username}</h3>
-            <p>${user.email}</p>
-        `;
-    }
+    document.getElementById('studentName').textContent = user.username || 'Student';
+    document.getElementById('studentEmail').textContent = user.email || '';
 
     // Initialize dashboard data
     loadDashboardData(user.token);
@@ -52,20 +47,22 @@ async function loadDashboardData(token) {
                 return !a.is_completed && due >= now;
             }).slice(0, 3);
             
-            const deadlineList = document.querySelector('.deadline-list');
+            const deadlineList = document.getElementById('dashboardDeadlineList');
+            const deadlineEmpty = document.getElementById('deadlinesEmptyState');
+            const deadlineTemplate = document.getElementById('dashboardDeadlineTemplate');
+
             if (deadlineList) {
                 deadlineList.innerHTML = '';
+                deadlineEmpty.style.display = 'none';
+                
                 if (upcoming.length === 0) {
-                    deadlineList.innerHTML = '<p style="color: #4CAF50; padding: 15px 0; font-weight: bold;">🎉 No pending deadlines. Great job!</p>';
+                    deadlineEmpty.style.display = 'block';
                 } else {
                     upcoming.forEach(item => {
-                        const deadlineItem = document.createElement('div');
-                        deadlineItem.className = 'deadline-item';
-                        deadlineItem.innerHTML = `
-                            <span class="deadline-course">${item.title}</span>
-                            <span class="deadline-date" style="color: #e74c3c; font-weight: bold;">Due: ${item.due_date}</span>
-                        `;
-                        deadlineList.appendChild(deadlineItem);
+                        const clone = deadlineTemplate.content.cloneNode(true);
+                        clone.querySelector('.deadline-course').textContent = item.title;
+                        clone.querySelector('.deadline-date').textContent = `Due: ${item.due_date}`;
+                        deadlineList.appendChild(clone);
                     });
                 }
             }
@@ -82,21 +79,23 @@ async function loadDashboardData(token) {
         
         if (courseRes.ok) {
             const courses = await courseRes.json();
-            const courseList = document.querySelector('.course-list');
+            const courseList = document.getElementById('dashboardCourseList');
+            const courseEmpty = document.getElementById('coursesEmptyState');
+            const courseTemplate = document.getElementById('dashboardCourseTemplate');
             
             if (courseList) {
                 courseList.innerHTML = '';
+                courseEmpty.style.display = 'none';
+                
                 if (courses.length === 0) {
-                    courseList.innerHTML = '<p style="color: #888; padding: 10px 0;">No courses available.</p>';
+                    courseEmpty.style.display = 'block';
                 } else {
-                    // Show 3 courses
+                    // Only show 3 course
                     courses.slice(0, 3).forEach(c => {
-                        courseList.innerHTML += `
-                            <div class="course-item">
-                                <span>${c.title}</span>
-                                <a href="course-detail.html?id=${c.id}" class="course-link">Continue →</a>
-                            </div>
-                        `;
+                        const clone = courseTemplate.content.cloneNode(true);
+                        clone.querySelector('.course-title-text').textContent = c.title;
+                        clone.querySelector('.course-link').href = `course-detail.html?id=${c.id}`;
+                        courseList.appendChild(clone);
                     });
                 }
             }

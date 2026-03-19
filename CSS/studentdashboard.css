@@ -208,3 +208,15 @@
         grid-template-columns: 1fr;
     }
 }
+
+.state-text-empty {
+    color: #888;
+    padding: 10px 0;
+    font-style: italic;
+}
+
+.state-text-success {
+    color: #4CAF50;
+    padding: 15px 0;
+    font-weight: bold;
+}

@@ -25,8 +25,8 @@
         <!-- Sidebar with user info -->
         <div class="sidebar">
             <div class="user-info">
-                <h3>Loading...</h3>
-                <p>Fetching user data</p>
+                <h3 id="studentName">Loading...</h3>
+                <p id="studentEmail">Fetching user data...</p>
             </div>
         </div>
 
@@ -44,17 +44,16 @@
             <!-- Upcoming Deadlines -->
             <div class="deadlines-section">
                 <h2>⚠️ Upcoming Deadlines</h2>
-                <div class="deadline-list">
-                    <p style="color: #888; padding: 10px 0; font-style: italic;">Loading deadlines...</p>
-                </div>
+                <p id="deadlinesEmptyState" class="state-text-success" style="display: none;">🎉 No pending deadlines. Great job!</p>
+                <div class="deadline-list" id="dashboardDeadlineList"></div>
             </div>
 
             <!-- My Courses -->
             <div class="courses-section">
                 <h2>My Courses</h2>
-                <div class="course-list">
-                    <p style="color: #888; padding: 10px 0; font-style: italic;">Loading courses...</p>
-                </div>
+                <p id="coursesEmptyState" class="state-text-empty" style="display: none;">No courses available.</p>
+                
+                <div class="course-list" id="dashboardCourseList"></div>
                 <a href="courses.html" class="view-all">View all courses →</a>
             </div>
             
@@ -70,6 +69,20 @@
           </div>
         </div>
     </div>
+
+    <template id="dashboardDeadlineTemplate">
+        <div class="deadline-item">
+            <span class="deadline-course"></span>
+            <span class="deadline-date"></span>
+        </div>
+    </template>
+
+    <template id="dashboardCourseTemplate">
+        <div class="course-item">
+            <span class="course-title-text"></span>
+            <a href="#" class="course-link">Continue →</a>
+        </div>
+    </template>
 
     <script src="js/studentdashboard.js"></script>
 </body>

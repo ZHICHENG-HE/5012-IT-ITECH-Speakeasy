@@ -8,41 +8,63 @@ document.addEventListener('DOMContentLoaded', function() {
     let activeContactId = null;
 
     const contactList = document.getElementById('contactList');
+    const contactLoading = document.getElementById('contactLoading');
+    const contactEmpty = document.getElementById('contactEmpty');
+    const contactError = document.getElementById('contactError');
+    const contactTemplate = document.getElementById('contactTemplate');
+
     const chatHeader = document.getElementById('chatHeader');
     const chatMessages = document.getElementById('chatMessages');
+    const chatWelcome = document.getElementById('chatWelcome');
+    const chatLoading = document.getElementById('chatLoading');
+    const chatEmpty = document.getElementById('chatEmpty');
+    const chatError = document.getElementById('chatError');
+    const messageTemplate = document.getElementById('messageTemplate');
+
     const messageInput = document.getElementById('messageInput');
     const sendBtn = document.getElementById('sendBtn');
 
     // Get Contacts list
     async function loadContacts() {
+        contactLoading.style.display = 'block';
+        contactEmpty.style.display = 'none';
+        contactError.style.display = 'none';
+        contactList.innerHTML = '';
+
         try {
             const response = await fetch('http://127.0.0.1:8000/api/contacts/', {
                 headers: { 'Authorization': `Token ${user.token}` }
             });
+            contactLoading.style.display = 'none';
             if (response.ok) {
                 const contacts = await response.json();
                 renderContacts(contacts);
+            } else {
+                 contactError.style.display = 'block';
             }
         } catch (error) {
-            contactList.innerHTML = '<p style="color:red; padding: 20px;">Error loading contacts</p>';
+            contactLoading.style.display = 'none';
+            contactError.style.display = 'block';
         }
     }
 
     // Contacts list
     function renderContacts(contacts) {
-        contactList.innerHTML = '';
         if (contacts.length === 0) {
-            contactList.innerHTML = '<p style="padding: 20px; color: #888;">No contacts found.</p>';
+            contactEmpty.style.display = 'block';
             return;
         }
 
         contacts.forEach(contact => {
-            const div = document.createElement('div');
-            div.className = 'contact-item';
-            div.innerHTML = `
-                <span class="contact-name">${contact.username}</span>
-                <span class="contact-role role-${contact.role}">${contact.role.charAt(0).toUpperCase() + contact.role.slice(1)}</span>
-            `;
+            const clone = contactTemplate.content.cloneNode(true);
+            const div = clone.querySelector('.contact-item');
+            
+            // Fill data
+            clone.querySelector('.contact-name').textContent = contact.username;
+
+            const roleSpan = clone.querySelector('.contact-role');
+            roleSpan.textContent = contact.role.charAt(0).toUpperCase() + contact.role.slice(1);
+            roleSpan.classList.add(`role-${contact.role}`);
             
             // Click Contact, load message
             div.addEventListener('click', () => {
@@ -63,25 +85,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Get message list
     async function loadMessages(contactId) {
-        chatMessages.innerHTML = '<p style="text-align: center; color: #888;">Loading messages...</p>';
+        chatMessages.innerHTML = '';
+        chatWelcome.style.display = 'none';
+        chatEmpty.style.display = 'none';
+        chatError.style.display = 'none';
+        chatLoading.style.display = 'block';
+
         try {
             const response = await fetch(`http://127.0.0.1:8000/api/messages/chat/${contactId}/`, {
                 headers: { 'Authorization': `Token ${user.token}` }
             });
+            chatLoading.style.display = 'none';
+
             if (response.ok) {
                 const messages = await response.json();
                 renderMessages(messages);
+            } else {
+                chatError.style.display = 'block';
             }
         } catch (error) {
-            chatMessages.innerHTML = '<p style="text-align: center; color: red;">Failed to load messages</p>';
+            chatLoading.style.display = 'none';
+            chatError.style.display = 'block';
         }
     }
 
     // Chat bubbles
     function renderMessages(messages) {
-        chatMessages.innerHTML = '';
         if (messages.length === 0) {
-            chatMessages.innerHTML = '<p style="text-align: center; color: #aaa; margin-top: 20px;">No messages yet. Say hi! 👋</p>';
+            chatEmpty.style.display = 'block';
             return;
         }
 
@@ -89,15 +120,16 @@ document.addEventListener('DOMContentLoaded', function() {
             const isMe = msg.sender === user.id || msg.sender_name === user.username;
             const bubbleClass = isMe ? 'message-outgoing' : 'message-incoming';
             
-            const msgDiv = document.createElement('div');
-            msgDiv.className = `message-bubble ${bubbleClass}`;
-            msgDiv.innerHTML = `
-                <div>${msg.content}</div>
-                <div class="message-time">${msg.timestamp}</div>
-            `;
-            chatMessages.appendChild(msgDiv);
+            const clone = messageTemplate.content.cloneNode(true);
+            const bubble = clone.querySelector('.message-bubble');
+
+            bubble.classList.add(bubbleClass);
+            clone.querySelector('.message-content').textContent = msg.content;
+            clone.querySelector('.message-time').textContent = msg.timestamp;
+
+            chatMessages.appendChild(clone);
         });
-        
+
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 

@@ -19,28 +19,32 @@ function initLogin() {
     });
 
     // Form submission
-    // Form submission
     let isLoginMode = true; 
     const usernameGroup = document.getElementById('usernameGroup');
-    const toggleBtn = document.getElementById('toggleModeBtn');
     const loginBtn = document.querySelector('.login-btn');
+    const toggleWrapper = document.getElementById('toggleModeWrapper');
+    const textToSignUp = document.getElementById('textToSignUp');
+    const textToLogin = document.getElementById('textToLogin');
 
     // Switch login and register
-    if (toggleBtn) {
-        toggleBtn.addEventListener('click', function() {
+    if (toggleWrapper) {
+        toggleWrapper.addEventListener('click', function() {
             isLoginMode = !isLoginMode;
             clearErrors();
 
             if (isLoginMode) {
                 // Login
-                usernameGroup.style.display = 'none';
-                loginBtn.textContent = 'Log In';
-                toggleBtn.innerHTML = 'Don\'t have an account? <strong style="color: #2196F3;">Sign Up</strong>';
+                usernameGroup.classList.add('hidden');
+                loginBtn.textContent = 'Login';
+                textToSignUp.classList.remove('hidden');
+                textToLogin.classList.add('hidden');
             } else {
                 // Register
-                usernameGroup.style.display = 'block';
+                usernameGroup.classList.remove('hidden');
                 loginBtn.textContent = 'Sign Up';
-                toggleBtn.innerHTML = 'Already have an account? <strong style="color: #2196F3;">Log In</strong>';
+
+                textToSignUp.classList.add('hidden');
+                textToLogin.classList.remove('hidden');
             }
         });
     }
@@ -155,7 +159,10 @@ function showError(fieldId, message) {
 // Remove error
 function removeError(fieldId) {
     const field = document.getElementById(fieldId);
+    if (!field) return;
     const formGroup = field.closest('.form-group');
+    if (!formGroup) return;
+
     const existingError = formGroup.querySelector('.error-message');
     if (existingError) {
         existingError.remove();
@@ -168,4 +175,5 @@ function removeError(fieldId) {
 function clearErrors() {
     removeError('email');
     removeError('password');
+    removeError('username');
 }

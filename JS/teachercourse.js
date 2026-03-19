@@ -10,6 +10,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function loadMyCourses(user) {
     const courseList = document.getElementById('teacherCourseList');
+    const emptyState = document.getElementById('emptyState');
+    const errorState = document.getElementById('errorState');
+    const template = document.getElementById('courseCardTemplate');
+
+    courseList.innerHTML = '';
+    emptyState.style.display = 'none';
+    errorState.style.display = 'none';
 
     try {
         const response = await fetch('http://127.0.0.1:8000/api/courses/', {
@@ -24,45 +31,39 @@ async function loadMyCourses(user) {
             const allCourses = await response.json();
             const myCourses = allCourses.filter(c => c.teacher_name === user.username);
 
-            courseList.innerHTML = '';
-
             if (myCourses.length === 0) {
-                // If no course
-                courseList.innerHTML = `
-                    <div style="text-align: center; padding: 50px 20px; background: #fff; border-radius: 8px; border: 1px dashed #ccc;">
-                        <span style="font-size: 40px;">📭</span>
-                        <p style="color: #666; margin: 15px 0; font-size: 16px;">You haven't created any courses yet.</p>
-                        <p style="color: #999; font-size: 14px;">Click the green button above to launch your first course!</p>
-                    </div>
-                `;
+                emptyState.style.display = 'block';
                 return;
             }
 
-            // Render course cards
+            // Render course card
             myCourses.forEach(course => {
-                const courseItem = document.createElement('div');
-                courseItem.className = 'course-item';
-                courseItem.innerHTML = `
-                    <div style="flex: 1;">
-                        <span class="course-name" style="font-size: 1.2rem; font-weight: bold; color: #2c3e50; display: block; margin-bottom: 5px;">${course.title}</span>
-                        <span style="color: #666; font-size: 0.9rem;">${course.description.substring(0, 60)}${course.description.length > 60 ? '...' : ''}</span>
-                    </div>
-                    <div style="text-align: right;">
-                        <span class="student-count" style="background: #e3f2fd; color: #1976d2; padding: 5px 10px; border-radius: 20px; font-size: 0.85rem; font-weight: bold;">Active</span>
-                        <div style="display: flex; gap: 5px;">
-                            <input type="email" id="invite-email-${course.id}" placeholder="Student Email" style="padding: 6px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; width: 150px;">
-                            <button onclick="inviteStudent(${course.id})" style="background: #FF9800; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.3s;">+ Invite</button>
-                        </div>
-                    </div>
-                `;
-                courseList.appendChild(courseItem);
+                const clone = template.content.cloneNode(true);
+                clone.querySelector('.course-title-text').textContent = course.title;
+                
+                const shortDesc = course.description.substring(0, 60) + (course.description.length > 60 ? '...' : '');
+                clone.querySelector('.course-desc-text').textContent = shortDesc;
+                
+                const inviteInput = clone.querySelector('.invite-input');
+                const inviteBtn = clone.querySelector('.invite-btn');
+                
+                inviteInput.id = `invite-email-${course.id}`;
+                inviteBtn.addEventListener('click', () => inviteStudent(course.id));
+
+                clone.querySelector('.edit-btn').addEventListener('click', () => openEditModal(course));
+                clone.querySelector('.add-module-btn').addEventListener('click', () => openModuleModal(course.id));
+                
+                courseList.appendChild(clone);
             });
+            
         } else {
-            courseList.innerHTML = '<p style="color: red; padding: 20px; text-align: center;">Failed to load courses.</p>';
+            errorState.textContent = 'Failed to load courses.';
+            errorState.style.display = 'block';
         }
     } catch (error) {
         console.error('Error:', error);
-        courseList.innerHTML = '<p style="color: red; padding: 20px; text-align: center;">Network error. Is Django running?</p>';
+        errorState.textContent = 'Network error. Is Django running?';
+        errorState.style.display = 'block';
     }
 }
 
@@ -102,3 +103,82 @@ window.inviteStudent = async function(courseId) {
         alert('Network error. Is Django running?');
     }
 };
+
+window.closeModal = function(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+window.openEditModal = function(course) {
+    document.getElementById('editCourseId').value = course.id;
+    document.getElementById('editCourseTitle').value = course.title;
+    document.getElementById('editCourseDesc').value = course.description;
+    document.getElementById('editCourseModal').style.display = 'block';
+}
+
+window.openModuleModal = function(courseId) {
+    document.getElementById('targetCourseId').value = courseId;
+    document.getElementById('addModuleForm').reset();
+    document.getElementById('addModuleModal').style.display = 'block';
+}
+
+// Update edited course
+document.getElementById('editCourseForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const courseId = document.getElementById('editCourseId').value;
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/api/courses/${courseId}/edit/`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': `Token ${user.token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                title: document.getElementById('editCourseTitle').value,
+                description: document.getElementById('editCourseDesc').value
+            })
+        });
+
+        if (response.ok) {
+            alert('Course updated successfully!');
+            closeModal('editCourseModal');
+            loadMyCourses(user);
+        } else {
+            alert('Failed to update course. Did you add the backend API?');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});
+
+// Update new Module
+document.getElementById('addModuleForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    try {
+        const response = await fetch('http://127.0.0.1:8000/api/modules/create/', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Token ${user.token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                course_id: document.getElementById('targetCourseId').value,
+                title: document.getElementById('moduleTitle').value,
+                description: document.getElementById('moduleDescription').value,
+                video_url: document.getElementById('moduleVideoUrl').value
+            })
+        });
+
+        if (response.ok) {
+            alert('Module added successfully!');
+            closeModal('addModuleModal');
+        } else {
+            alert('Failed to add module. Did you add the backend API?');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+});

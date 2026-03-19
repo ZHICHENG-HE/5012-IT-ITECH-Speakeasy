@@ -6,19 +6,6 @@
     <title>Speakeasy - Vocabulary Learning</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/vocabulary.css">
-    <!-- Minor formatting tweak -->
-    <style>
-        .vocab-card {
-            height: auto !important;
-            min-height: 500px;
-            max-width: 700px !important;
-            padding: 40px !important;
-            margin-top: 40px !important;
-        }
-        #newWordInput, #newMeaningInput {
-            min-width: 150px;
-        }
-    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -39,12 +26,12 @@
         <div class="vocab-card">
             <h2>Vocabulary Learning</h2>
             <!-- Add word -->
-            <div style="margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px dashed #eee;">
-                <h3 style="font-size: 15px; color: #666; margin-bottom: 10px;">➕ Add New Word</h3>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" id="newWordInput" placeholder="English Word" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                    <input type="text" id="newMeaningInput" placeholder="What it Meaning" style="flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 6px;">
-                    <button id="addNewWordBtn" style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold;">Add</button>
+            <div class="add-word-section">
+                <h3 class="add-word-title">➕ Add New Word</h3>
+                <div class="add-word-form">
+                    <input type="text" id="newWordInput" class="add-word-input" placeholder="English Word">
+                    <input type="text" id="newMeaningInput" class="add-word-input" placeholder="Chinese Meaning">
+                    <button id="addNewWordBtn" class="add-word-btn">Add</button>
                 </div>
             </div>
             <!-- Word Display -->

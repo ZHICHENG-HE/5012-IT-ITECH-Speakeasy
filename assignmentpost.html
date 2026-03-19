@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speakeasy - Post Assignment</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/assignmentpost.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Speakeasy</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="teacher-dashboard.html">Dashboard</a></li>
+                <li><a href="login.html" class="nav-login">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>Post New Assignment</h1>
+        
+        <form id="assignmentForm" class="assignment-form">
+            <div class="form-group">
+                <label for="title">Assignment Title</label>
+                <input type="text" id="title" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="course">Course</label>
+                <select id="course" required>
+                    <option value="">Loading your courses...</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="dueDate">Due Date</label>
+                <input type="date" id="dueDate" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" rows="4" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="points">Total Points</label>
+                <input type="number" id="points" value="100" min="0" required>
+            </div>
+            
+            <button type="submit" class="submit-btn">Post Assignment</button>
+        </form>
+        
+        <div id="message" class="message"></div>
+    </div>
+
+    <script src="js/assignmentpost.js"></script>
+</body>
+</html>

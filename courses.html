@@ -42,9 +42,41 @@
 
         <!-- Courses Grid -->
         <div class="courses-grid" id="coursesGrid">
-            <!-- Courses will be loaded here by JavaScript -->
+            <div id="coursesEmpty" class="no-results" style="display: none;">
+            <p>No courses found. Teacher needs to add some!</p>
         </div>
-    </div>
+        <div id="coursesError" class="no-results" style="display: none;">
+            <p class="error-text">Error loading courses from server.</p>
+        </div>
+    </div> <template id="courseCardTemplate">
+        <div class="course-card">
+            <div class="course-image">
+                <span class="course-level"></span>
+            </div>
+            
+            <div class="course-content">
+                <h3 class="course-title"></h3>
+                <p class="course-description"></p>
+                
+                <div class="course-meta">
+                    <span class="course-modules"></span>
+                    <span class="course-duration"></span>
+                </div>
+                
+                <div class="course-progress">
+                    <div class="progress-text">
+                        <span>Progress</span>
+                        <span class="progress-percent"></span>
+                    </div>
+                    <div class="progress-bar-small">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+                
+                <a href="#" class="course-btn"></a>
+            </div>
+        </div>
+    </template>
 
     <script src="js/courses.js"></script>
 </body>

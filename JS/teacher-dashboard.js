@@ -18,6 +18,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function loadTeacherCourses(user) {
     const coursesList = document.getElementById('dashboardCoursesList');
+    const emptyState = document.getElementById('coursesEmptyState');
+    const errorState = document.getElementById('coursesErrorState');
+    const template = document.getElementById('dashboardCourseTemplate');
+
+    coursesList.innerHTML = '';
+    emptyState.style.display = 'none';
+    errorState.style.display = 'none';
+
     try {
         const response = await fetch('http://127.0.0.1:8000/api/courses/');
         if (response.ok) {
@@ -26,29 +34,38 @@ async function loadTeacherCourses(user) {
             
             coursesList.innerHTML = '';
             if (myCourses.length === 0) {
-                coursesList.innerHTML = '<p style="padding: 15px; color: #888;">No courses created yet.</p>';
+                emptyState.style.display = 'block';
                 return;
             }
             
             // Only show 3 course
             myCourses.slice(0, 3).forEach(course => {
-                coursesList.innerHTML += `
-                    <div class="course-item">
-                        <span>${course.title}</span>
-                        <a href="teachercourse.html" class="course-link">View →</a>
-                    </div>
-                `;
+                const clone = template.content.cloneNode(true);
+                clone.querySelector('.course-title-text').textContent = course.title;
+                coursesList.appendChild(clone);
             });
+        } else {
+            errorState.textContent = 'Failed to load courses.';
+            errorState.style.display = 'block';
         }
     } catch (error) {
         console.error('Error:', error);
-        coursesList.innerHTML = '<p style="padding: 15px; color: red;">Network error.</p>';
-    }
+        errorState.textContent = 'Network error. Is Django running?';
+        errorState.style.display = 'block';
+        }
 }
 
 // Get student submissions
 async function loadRecentSubmissions(user) {
     const assignmentsList = document.getElementById('dashboardAssignmentsList');
+    const emptyState = document.getElementById('submissionsEmptyState');
+    const errorState = document.getElementById('submissionsErrorState');
+    const template = document.getElementById('dashboardSubmissionTemplate');
+
+    assignmentsList.innerHTML = '';
+    emptyState.style.display = 'none';
+    errorState.style.display = 'none';
+
     try {
         const response = await fetch('http://127.0.0.1:8000/api/submissions/teacher/', {
             headers: {
@@ -60,27 +77,25 @@ async function loadRecentSubmissions(user) {
         if (response.ok) {
             const submissions = await response.json();
             
-            assignmentsList.innerHTML = '';
             if (submissions.length === 0) {
-                assignmentsList.innerHTML = '<p style="padding: 15px; color: #888;">No recent submissions. 🎉</p>';
+                emptyState.style.display = 'block';
                 return;
             }
             
             // Only show 3 most recent submissions
             submissions.slice(0, 3).forEach(sub => {
-                assignmentsList.innerHTML += `
-                    <div class="assignment-item">
-                        <div class="assignment-info">
-                            <span style="font-weight: bold; color: #333;">${sub.assignment_title}</span>
-                            <span class="student-count">Submitted by: ${sub.student_name}</span>
-                        </div>
-                        <a href="teacher-grade.html" class="assignment-link">Grade →</a>
-                    </div>
-                `;
+                const clone = template.content.cloneNode(true);
+                clone.querySelector('.assignment-title-text').textContent = sub.assignment_title;
+                clone.querySelector('.student-count').textContent = `Submitted by: ${sub.student_name}`;
+                assignmentsList.appendChild(clone);
             });
+        } else {
+            errorState.textContent = 'Failed to load submissions.';
+            errorState.style.display = 'block';
         }
     } catch (error) {
         console.error('Error:', error);
-        assignmentsList.innerHTML = '<p style="padding: 15px; color: red;">Network error.</p>';
+        errorState.textContent = 'Network error. Is Django running?';
+        errorState.style.display = 'block';
     }
 }

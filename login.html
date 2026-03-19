@@ -34,7 +34,7 @@
 
             <!-- Login Form -->
             <form id="loginForm">
-                <div class="form-group" id="usernameGroup" style="display: none;">
+                <div class="form-group hidden" id="usernameGroup">
                     <label for="username">Username</label>
                     <input type="text" id="username" placeholder="Choose a username">
                 </div>
@@ -56,9 +56,13 @@
                 </div>
 
                 <button type="submit" class="login-btn">Login</button>
-                <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: #666;">
-                    <span id="toggleModeBtn" style="cursor: pointer; transition: 0.3s;">
-                        Don't have an account? <strong style="color: #2196F3;">Sign Up</strong>
+                <div id="toggleModeWrapper" class="toggle-mode-wrapper">
+                    <span id="textToSignUp">
+                        Don't have an account? <span class="toggle-link">Sign Up</span>
+                    </span>
+                    
+                    <span id="textToLogin" class="hidden">
+                        Already have an account? <span class="toggle-link">Log In</span>
                     </span>
                 </div>
             </form>

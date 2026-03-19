@@ -16,7 +16,7 @@
 }
 
 .courses-header p {
-    color: #666;
+    color: #333200;
     font-size: 1.1rem;
 }
 
@@ -210,4 +210,9 @@
     .courses-grid {
         grid-template-columns: 1fr;
     }
+}
+
+.error-text {
+    color: #ff4757;
+    font-weight: 500;
 }

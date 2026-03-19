@@ -14,7 +14,11 @@
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     width: 100%;
-    max-width: 500px;
+    height: auto;
+    min-height: 500px;
+    max-width: 700px;
+    padding: 40px;
+    margin-top: 40px;
 }
 
 .vocab-card h2 {
@@ -120,6 +124,55 @@
 .feedback-message.incorrect {
     background: #f8d7da;
     color: #721c24;
+}
+
+.vocab-card {
+    height: auto !important;     
+    min-height: 500px;           
+    max-width: 700px !important; 
+    padding: 40px !important;    
+    margin-top: 40px !important;
+}
+
+/* Word Style*/
+.add-word-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #eee;
+}
+
+.add-word-title {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.add-word-form {
+    display: flex;
+    gap: 10px;
+}
+
+.add-word-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    min-width: 150px;
+}
+
+.add-word-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.add-word-btn:hover {
+    background: #45a049;
 }
 
 /* Responsive */

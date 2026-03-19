@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/course-detail.css">
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
@@ -26,21 +27,44 @@
         <!-- Back Link -->
         <a href="courses.html" class="back-link">← Back to Courses</a>
 
+        <div id="courseError" class="error-text" style="display: none;"></div>
+
         <!-- Course Info -->
-        <div class="course-header" id="courseHeader">
-            <!-- Will be filled by JavaScript -->
+        <div class="course-header" id="courseHeader" style="display: none;">
+            <h1 id="detailTitle"></h1>
+            <div class="course-meta">
+                <span id="detailModuleCount"></span>
+                <span id="detailInstructor" class="instructor-text"></span>
+            </div>
+            <p id="detailDescription" class="course-description"></p>
         </div>
 
         <!-- Course Content -->
         <div class="course-content">
             <h2>Course Content</h2>
             
+            <p id="modulesEmpty" class="no-modules" style="display: none;">No modules available yet. Teacher is working on it!</p>
+
             <!-- Modules List -->
-            <div class="modules-list" id="modulesList">
-                <!-- Will be filled by JavaScript -->
-            </div>
+            <div class="modules-list" id="modulesList"></div>
         </div>
     </div>
+
+    <template id="moduleTemplate">
+        <div class="module-item">
+            <div class="module-number-box"></div>
+            
+            <div class="module-info">
+                <div class="module-title"></div>
+                <div class="module-meta"></div>
+            </div>
+            
+            <div class="module-actions">
+                <span class="module-status status-completed">▶ Ready</span>
+                <a href="#" target="_blank" class="watch-btn">Watch Video</a>
+            </div>
+        </div>
+    </template>
 
     <script src="js/course-detail.js"></script>
 </body>

@@ -54,3 +54,175 @@
         gap: 0.5rem;
     }
 }
+
+.course-info {
+    flex: 1;
+}
+
+.course-title-text {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #2c3e50;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.course-desc-text {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.course-actions {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+/* Badge designs */
+.student-count {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* Invite form */
+.invite-form {
+    display: flex;
+    gap: 5px;
+}
+
+.invite-input {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 13px;
+    width: 150px;
+}
+
+.invite-btn {
+    background: #FF9800;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.invite-btn:hover {
+    background: #f57c00;
+}
+
+/* Empty data */
+.empty-state-box {
+    text-align: center;
+    padding: 50px 20px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px dashed #ccc;
+    margin-top: 20px;
+}
+
+.empty-state-icon {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.empty-state-text {
+    color: #666;
+    margin: 15px 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.empty-state-subtext {
+    color: #999;
+    font-size: 14px;
+}
+
+/* Button design */
+.action-btn {
+    padding: 6px 12px;
+    border: 1px solid #e0e0e0;
+    background: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    background: #f5f7fa;
+    border-color: #cbd5e1;
+    color: #2196F3;
+}
+
+/* Edit box */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    margin: 10vh auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px; right: 20px;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.close-modal:hover { color: #333; }
+
+.modal-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-family: inherit;
+}
+
+.modal-content .submit-btn {
+    width: 100%;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.modal-content .submit-btn:hover { background: #45a049; }

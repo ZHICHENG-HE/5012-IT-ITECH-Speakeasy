@@ -6,16 +6,39 @@
 }
 
 /* Back Link */
-.back-link {
-    display: inline-block;
-    color: #667eea;
-    text-decoration: none;
-    margin-bottom: 2rem;
-    font-size: 0.95rem;
+.back-btn-styled {
+    display: inline-block; 
+    padding: 10px 20px; 
+    background-color: #e3f2fd; 
+    color: #2196F3; 
+    border-radius: 8px; 
+    text-decoration: none; 
+    font-weight: bold; 
+    margin-bottom: 20px; 
+    border: 1px solid #bbdefb; 
+    transition: all 0.3s ease; 
+    font-size: 14px;
 }
 
-.back-link:hover {
-    text-decoration: underline;
+.back-btn-styled:hover {
+    background-color: #bbdefb; 
+    color: #1976d2; 
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
+    transform: translateX(-3px);
+}
+
+/* Error text */
+.status-text {
+    padding: 20px;
+    color: #999;
+    text-align: center;
+}
+
+.error-text {
+    padding: 20px;
+    color: #ff4757;
+    text-align: center;
+    font-weight: bold;
 }
 
 /* Assignment Detail Card */

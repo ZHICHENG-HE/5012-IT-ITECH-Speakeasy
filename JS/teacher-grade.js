@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Get submission data
     async function loadSubmissions() {
+        const errorState = document.getElementById('errorState');
+        const submissionsList = document.getElementById('submissionsList');
+        const emptyState = document.getElementById('emptyState');
+        
         try {
             const response = await fetch('http://127.0.0.1:8000/api/submissions/teacher/', {
                 method: 'GET',
@@ -23,63 +27,68 @@ document.addEventListener('DOMContentLoaded', function() {
                 const submissions = await response.json();
                 renderSubmissions(submissions);
             } else {
-                submissionsList.innerHTML = '<p style="color: red;">Failed to load submissions.</p>';
+                showError('Failed to load submissions.');
             }
         } catch (error) {
             console.error('Network error:', error);
-            submissionsList.innerHTML = '<p style="color: red;">Network error. Is Django running?</p>';
+            showError('Network error. Is Django running?');
+        }
+
+        function showError(msg) {
+            submissionsList.innerHTML = '';
+            emptyState.style.display = 'none';
+            errorState.textContent = msg;
+            errorState.style.display = 'block';
         }
     }
 
     // Show data
     function renderSubmissions(submissions) {
-        submissionsList.innerHTML = ''; 
+        const submissionsList = document.getElementById('submissionsList');
+        const emptyState = document.getElementById('emptyState');
+        const errorState = document.getElementById('errorState');
+        const template = document.getElementById('submissionCardTemplate');
+
+        submissionsList.innerHTML = '';
+        emptyState.style.display = 'none';
+        errorState.style.display = 'none';
 
         if (submissions.length === 0) {
-            submissionsList.innerHTML = '<div style="background: white; padding: 30px; text-align: center; border-radius: 8px; border: 1px solid #ddd;">No submissions found yet. ☕</div>';
+            emptyState.style.display = 'block';
             return;
         }
 
         submissions.forEach(sub => {
-            const card = document.createElement('div');
-            card.style = 'background: white; border: 1px solid #e0e0e0; padding: 20px; margin-bottom: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 4px rgba(0,0,0,0.02);';
+            const clone = template.content.cloneNode(true);
 
-            let gradingHtml = '';
+            // Push data
+            clone.querySelector('.submission-title').textContent = sub.assignment_title;
+            clone.querySelector('.student-name-email').textContent = `${sub.student_name} (${sub.student_email})`;
+            clone.querySelector('.submitted-at-text').textContent = sub.submitted_at;
+            clone.querySelector('.download-btn').href = sub.file_url;
+
+            const gradedBox = clone.querySelector('.graded-box');
+            const gradingForm = clone.querySelector('.grading-form');
+
             if (sub.grade !== null) {
-                gradingHtml = `
-                    <div style="margin-top: 15px; padding: 10px; background-color: #e8f5e9; border-radius: 5px; border-left: 4px solid #4CAF50;">
-                        <span style="color: #2e7d32; font-weight: bold;">Score: ${sub.grade}/100</span>
-                        <p style="margin: 5px 0 0 0; color: #555; font-size: 14px;">Feedback: ${sub.feedback || 'None'}</p>
-                    </div>
-                `;
+                // If grade
+                gradedBox.style.display = 'block';
+                clone.querySelector('.graded-score').textContent = `Score: ${sub.grade}/100`;
+                clone.querySelector('.graded-feedback').textContent = `Feedback: ${sub.feedback || 'None'}`;
             } else {
-                gradingHtml = `
-                    <div style="margin-top: 15px; display: flex; gap: 10px; align-items: center;">
-                        <input type="number" id="grade-${sub.id}" placeholder="Score (0-100)" style="width: 100px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                        <input type="text" id="feedback-${sub.id}" placeholder="Feedback..." style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
-                        <button onclick="submitGrade(${sub.id})" style="background-color: #4CAF50; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold;">Save Grade</button>
-                    </div>
-                `;
+                gradingForm.style.display = 'flex';
+                
+                const gradeInput = clone.querySelector('.grade-input');
+                const feedbackInput = clone.querySelector('.feedback-input');
+                const saveBtn = clone.querySelector('.save-grade-btn');
+
+                gradeInput.id = `grade-${sub.id}`;
+                feedbackInput.id = `feedback-${sub.id}`;
+
+                saveBtn.addEventListener('click', () => submitGrade(sub.id));
             }
 
-            card.innerHTML = `
-                <div style="flex: 1; padding-right: 20px;">
-                    <h3 style="margin: 0 0 8px 0; color: #2c3e50;">${sub.assignment_title}</h3>
-                    <p style="margin: 0; color: #555; font-size: 14px;">
-                        <strong>Student:</strong> ${sub.student_name} (${sub.student_email})
-                    </p>
-                    <p style="margin: 5px 0 0 0; color: #888; font-size: 13px;">
-                        Submitted at: ${sub.submitted_at}
-                    </p>
-                    ${gradingHtml} </div>
-                <div>
-                    <a href="${sub.file_url}" target="_blank" download
-                       style="background-color: #2196F3; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; transition: 0.3s; display: inline-block;">
-                       📥 Download
-                    </a>
-                </div>
-            `;
-            submissionsList.appendChild(card);
+            submissionsList.appendChild(clone);
         });
     }
 

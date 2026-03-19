@@ -6,10 +6,14 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
     
-    const assignmentsList = document.getElementById('assignmentsList');
     let allAssignmentsData = [];
     
+    // Get data
     async function loadAssignments() {
+        const assignmentsList = document.getElementById('assignmentsList');
+        const errorState = document.getElementById('assignmentsError');
+        const emptyState = document.getElementById('assignmentsEmpty');
+
         try {
             const response = await fetch('http://127.0.0.1:8000/api/assignments/', {
                 method: 'GET',
@@ -23,80 +27,77 @@ document.addEventListener('DOMContentLoaded', function() {
                 allAssignmentsData = await response.json();
                 renderAssignments(allAssignmentsData, 'all');
                 updateStats(allAssignmentsData);
-                setupFilters();
             } else {
-                assignmentsList.innerHTML = '<p class="error">Failed to load assignments.</p>';
+                assignmentsList.innerHTML = '';
+                errorState.textContent = 'Failed to load assignments.';
+                errorState.style.display = 'block';
             }
         } catch (error) {
             console.error('Error fetching assignments:', error);
-            assignmentsList.innerHTML = '<p class="error">Network error. Check if Django is running.</p>';
+            assignmentsList.innerHTML = '';
+            errorState.textContent = 'Network error. Check if Django is running.';
+            errorState.style.display = 'block';
         }
     }
 
     // Render data to card
     function renderAssignments(assignments, filterType = 'all') {
+        const assignmentsList = document.getElementById('assignmentsList');
+        const emptyState = document.getElementById('assignmentsEmpty');
+        const errorState = document.getElementById('assignmentsError');
+        const template = document.getElementById('assignmentCardTemplate');
+
         assignmentsList.innerHTML = ''; 
+        emptyState.style.display = 'none';
+        errorState.style.display = 'none';
 
         const now = new Date();
         let filteredAssignments = assignments;
+
         if (filterType === 'completed') {
             filteredAssignments = assignments.filter(a => a.is_completed);
-        } else if (filterType === 'pending') {
+        } else if (filterType === 'pending') {w
             filteredAssignments = assignments.filter(a => !a.is_completed && new Date(a.due_date) >= now);
         } else if (filterType === 'overdue') {
             filteredAssignments = assignments.filter(a => !a.is_completed && new Date(a.due_date) < now);
         }
 
         if (filteredAssignments.length === 0) {
-            assignmentsList.innerHTML = `<p style="padding: 20px; text-align: center; color: #FFD700;">No ${filterType} assignments found. 🎉</p>`;
+            emptyState.textContent = `No ${filterType} assignments found. 🎉`;
+            emptyState.style.display = 'block';
             return;
         }
 
         filteredAssignments.forEach(assignment => {
-            const card = document.createElement('div');
-            card.className = 'assignment-card'; 
-            card.style = 'border: 1px solid #ddd; padding: 20px; margin-bottom: 15px; border-radius: 8px; background-color: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.05);';
+            const clone = template.content.cloneNode(true);
             
-            // Button Style
-            let buttonHtml = '';
+            clone.querySelector('.assignment-card-title').textContent = assignment.title;
+            clone.querySelector('.due-date-text').textContent = assignment.due_date;
+            clone.querySelector('.points-text').textContent = assignment.points;
+            clone.querySelector('.assignment-card-desc').textContent = assignment.description;
+
+            // Button State
+            const gradeBox = clone.querySelector('.grade-box');
+            const pendingBadge = clone.querySelector('.pending-grade-badge');
+            const submitBtn = clone.querySelector('.submit-work-btn');
+
             if (assignment.is_completed) {
                 if (assignment.grade !== null && assignment.grade !== undefined) {
                     // Grade
-                    buttonHtml = `
-                        <div style="text-align: right;">
-                            <span style="background-color: #FFD700; color: #8B6508; padding: 5px 12px; border-radius: 4px; font-weight: bold; font-size: 18px;">🏆 Score: ${assignment.grade}</span>
-                            <p style="margin: 5px 0 0 0; font-size: 12px; color: #666;">📝 ${assignment.feedback || 'Good job!'}</p>
-                        </div>
-                    `;
+                    gradeBox.style.display = 'block';
+                    clone.querySelector('.score-badge').textContent = `🏆 Score: ${assignment.grade}`;
+                    clone.querySelector('.feedback-text').textContent = `📝 ${assignment.feedback || 'Good job!'}`;
                 } else {
                     // Not grade
-                    buttonHtml = `<span style="background-color: #9e9e9e; color: white; padding: 10px 24px; border-radius: 6px; font-weight: bold; display: inline-block;">✅ Pending Grade</span>`;
+                    pendingBadge.style.display = 'inline-block';
                 }
             } else {
                 // Not submit
-                buttonHtml = `
-                    <a href="assignment-submit.html?id=${assignment.id}" 
-                       style="background-color: #4CAF50; color: white; padding: 10px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block; box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);">
-                       Submit Work
-                    </a>
-                `;
+                submitBtn.style.display = 'inline-block';
+                submitBtn.href = `assignment-submit.html?id=${assignment.id}`;
             }
 
-            card.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                    <div style="flex: 1; padding-right: 30px;">
-                        <h3 style="margin: 0 0 10px 0; color: #333;">${assignment.title}</h3>
-                        <p style="margin: 0; color: #666; font-size: 14px;">
-                            <strong>Due:</strong> ${assignment.due_date} | 
-                            <strong>Points:</strong> ${assignment.points}
-                        </p>
-                        <p style="color: #555; margin-top: 10px; line-height: 1.5;">${assignment.description}</p>
-                    </div>
-                    <div style="flex-shrink: 0;">
-                        ${buttonHtml} </div>
-                </div>
-            `;
-            assignmentsList.appendChild(card);
+            assignmentsList.appendChild(clone);
         });
     }
 
@@ -140,5 +141,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    setupFilters();
     loadAssignments();
 });
