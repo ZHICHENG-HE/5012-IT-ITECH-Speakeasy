@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speakeasy - Submit Assignment</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/assignment-submit.css">
+    <style>
+        .back-btn-styled {
+            display: inline-block !important; 
+            padding: 10px 20px !important; 
+            background-color: #e3f2fd !important; 
+            color: #2196F3 !important; 
+            border-radius: 8px !important; 
+            text-decoration: none !important; 
+            font-weight: bold !important; 
+            margin-bottom: 20px !important; 
+            border: 1px solid #bbdefb !important; 
+            transition: all 0.3s ease !important; 
+            font-size: 14px !important;
+        }
+        .back-btn-styled:hover {
+            background-color: #bbdefb !important; 
+            color: #1976d2 !important; 
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2) !important;
+            transform: translateX(-3px) !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Speakeasy</a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="courses.html">Courses</a></li>
+                <li><a href="assignments.html">Assignments</a></li>
+                <li><a href="login.html" class="nav-login">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="submit-container">
+        <!-- Back Link -->
+        <div style="max-width: 800px; margin: 20px auto 10px; padding: 0 20px;">
+            <a href="assignments.html" class="back-btn-styled">
+                <i class="fas fa-arrow-left"></i> ← Back to Assignments
+            </a>
+        </div>
+
+        <div class="assignment-container" id="assignmentDetail">
+            <p style="padding: 20px; color: #999;">Loading assignment details...</p>
+        </div>
+
+        <!-- Submission Form -->
+        <div class="submission-form">
+            <h2>Submit Your Work</h2>
+            
+            <form id="submitForm">
+                <!-- File Upload -->
+                <div class="form-group">
+                    <label for="assignmentFile">Upload File</label>
+                    <div class="file-upload-area" id="fileUploadArea">
+                        <input type="file" id="assignmentFile" name="assignmentFile" class="file-input" required>
+                        <div class="file-upload-placeholder">
+                            <span class="upload-icon">📎</span>
+                            <p>Drag & drop or click to upload</p>
+                            <p class="file-types">Supported: PDF, DOC, DOCX, TXT (Max 10MB)</p>
+                        </div>
+                        <div class="file-preview" id="filePreview" style="display: none;">
+                            <span class="file-name"></span>
+                            <button type="button" class="remove-file">✕</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Buttons -->
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Submit Assignment</button>
+                    <button type="button" class="cancel-btn" onclick="window.location.href='assignments.html'">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/assignment-submit.js"></script>
+</body>
+</html>
