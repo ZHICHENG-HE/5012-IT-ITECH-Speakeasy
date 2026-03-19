@@ -1,0 +1,209 @@
+/* Teacher Dashboard Styles */
+.teacher-dashboard {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    min-height: calc(100vh - 80px);
+    background: #f5f7fa;
+}
+
+/* Sidebar */
+.sidebar {
+    background: white;
+    padding: 2rem 1rem;
+    border-right: 1px solid #e0e0e0;
+}
+
+.user-info {
+    text-align: center;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.user-info h3 {
+    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+}
+
+.user-info p {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+/* Main Content */
+.main-content {
+    padding: 2rem;
+    max-width: 900px;
+}
+
+.main-content h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 2rem;
+}
+
+.main-content h2 {
+    color: #333;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+/* Quick Actions */
+.quick-actions {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    display: block;
+    padding: 1rem;
+    text-align: center;
+    background: #667eea;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.action-btn:hover {
+    background: #5a67d8;
+}
+
+/* Courses Section */
+.courses-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.course-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.course-item:last-child {
+    border-bottom: none;
+}
+
+.course-item span {
+    color: #333;
+}
+
+.course-link {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.course-link:hover {
+    text-decoration: underline;
+}
+
+/* Assignments Section */
+.assignments-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.assignment-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.assignment-item:last-child {
+    border-bottom: none;
+}
+
+.assignment-info {
+    flex: 1;
+}
+
+.assignment-info span {
+    display: block;
+    color: #333;
+    margin-bottom: 0.3rem;
+}
+
+.student-count {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.assignment-link {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.assignment-link:hover {
+    text-decoration: underline;
+}
+
+.view-all {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #667eea;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.view-all:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .teacher-dashboard {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .main-content {
+        padding: 1rem;
+    }
+    
+    .actions-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.empty-text {
+    padding: 15px;
+    color: #888;
+}
+
+.error-text {
+    padding: 15px;
+    color: #ff4757;
+}
+
+.assignment-title-text {
+    font-weight: bold;
+}
