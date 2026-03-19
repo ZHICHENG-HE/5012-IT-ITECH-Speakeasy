@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speakeasy - Create Course</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .create-container { max-width: 800px; margin: 40px auto; padding: 30px; background: #fff; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .form-section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px dashed #eee; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; outline: none; }
+        .form-group input:focus, .form-group textarea:focus { border-color: #2196F3; }
+        .submit-btn { background: #4CAF50; color: white; border: none; padding: 15px 30px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer; width: 100%; transition: 0.3s; }
+        .submit-btn:hover { background: #388E3C; }
+    </style>
+</head>
+<body style="background-color: #f8f9fa;">
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Speakeasy</a>
+            <ul class="nav-menu">
+                <li><a href="teacher-dashboard.html">Dashboard</a></li>
+                <li><a href="teachercourse.html">My Courses</a></li>
+                <li><a href="login.html" class="nav-login">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="create-container">
+        <h1 style="color: #2c3e50; margin-bottom: 10px;">🚀 Launch a New Course</h1>
+        <p style="color: #666; margin-bottom: 30px;">Design your course and upload your first video module.</p>
+
+        <form id="createCourseForm">
+            <div class="form-section">
+                <h3 style="color: #2196F3; margin-bottom: 15px;">1. Course Details</h3>
+                <div class="form-group">
+                    <label>Course Title</label>
+                    <input type="text" id="courseTitle" placeholder="e.g., Advanced Spoken English" required>
+                </div>
+                <div class="form-group">
+                    <label>Course Description</label>
+                    <textarea id="courseDesc" rows="4" placeholder="What will students learn in this course?" required></textarea>
+                </div>
+            </div>
+
+            <div class="form-section" style="border-bottom: none;">
+                <h3 style="color: #FF9800; margin-bottom: 15px;">2. First Video Module (Optional)</h3>
+                <div class="form-group">
+                    <label>Module 1 Title</label>
+                    <input type="text" id="moduleTitle" placeholder="e.g., Introduction & Greetings">
+                </div>
+                <div class="form-group">
+                    <label>Video URL</label>
+                    <input type="url" id="videoUrl" placeholder="e.g., https://www.youtube.com/watch?v=...">
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">Publish Course</button>
+        </form>
+    </div>
+
+    <script src="js/create-course.js"></script>
+</body>
+</html>
