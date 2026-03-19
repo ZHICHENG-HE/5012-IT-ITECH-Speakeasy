@@ -20,4 +20,6 @@ urlpatterns = [
     path('courses/new/', views.create_course, name='create_course_api'),
     path('vocabulary/add/', views.add_vocabulary, name='add_vocabulary'),
     path('courses/enroll/', views.enroll_student, name='enroll_student'),
+    path('courses/<int:pk>/edit/', views.edit_course, name='edit_course'),
+    path('modules/create/', views.create_module, name='create_module'),
 ]

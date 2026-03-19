@@ -9,7 +9,7 @@ class CustomUser(AbstractUser):
     )
     role = models.CharField(max_length = 10, choices = ROLE_CHOICES, default = 'student')
     
-    # AbstractUser conflict
+    # Handle abstractUser conflict
     groups = models.ManyToManyField('auth.Group', related_name = 'customuser_set', blank = True)
     user_permissions = models.ManyToManyField('auth.Permission', related_name = 'customuser_set', blank = True)
 
@@ -30,10 +30,9 @@ class Module(models.Model):
     
     title = models.CharField(max_length = 200)
     description = models.TextField(blank = True, null = True)
-    video_url = models.URLField(blank = True, null = True) # Video link
-    sequence_order = models.IntegerField(default =1)    # Module No.
-    file_size = models.CharField(max_length = 50, blank = True, null = True) # File size
-    text_content = models.TextField(blank = True, null = True) # The text of the module
+    video_url = models.URLField(blank = True, null = True)
+    sequence_order = models.IntegerField(default =1)
+    text_content = models.TextField(blank = True, null = True)
 
     def __str__(self):
         return f"{self.course.title} - {self.title}"

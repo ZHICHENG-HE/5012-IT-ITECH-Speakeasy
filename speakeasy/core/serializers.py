@@ -51,6 +51,7 @@ class AssignmentSerializer(serializers.ModelSerializer):
         model = Assignment
         fields = ['id', 'title', 'description', 'due_date', 'course_name', 'status', 'points', 'grade']
 
+    # Check the assignment and return the status
     def get_status(self, obj):
         request = self.context.get('request')
         
@@ -59,20 +60,20 @@ class AssignmentSerializer(serializers.ModelSerializer):
                 return 'completed'
             if obj.due_date and obj.due_date < now().date():
                 return 'overdue'
-                
         return 'pending'
     
+    # Send grade
     def get_grade(self, obj):
         request = self.context.get('request')
         if request and hasattr(request, 'user') and request.user.role == 'student':
             submission = Submission.objects.filter(assignment=obj, student=request.user).first()
             if submission and submission.grade is not None:
                 return submission.grade
-            
         return None
 
 # Assignment Module Dropdown data pass
 class ModuleDropdownSerializer(serializers.ModelSerializer):
+    # Get Assignment
     course_title = serializers.ReadOnlyField(source='course.title')
     class Meta:
         model = Module
@@ -109,6 +110,7 @@ class TeacherSubmissionSerializer(serializers.ModelSerializer):
 
 # Message data pass
 class MessageSerializer(serializers.ModelSerializer):
+    # Load sender and recipient data
     sender_name = serializers.CharField(source='sender.username', read_only=True)
     receiver_name = serializers.CharField(source='receiver.username', read_only=True)
     timestamp = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
