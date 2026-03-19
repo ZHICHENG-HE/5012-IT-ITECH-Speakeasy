@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speakeasy - Grade Submissions</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/teacher-grade.css">
+</head>
+<body style="background-color: #f8f9fa;">
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Speakeasy</a>
+            <ul class="nav-menu">
+                <li><a href="teacher-dashboard.html">Dashboard</a></li>
+                <li><a href="teachercourse.html">Courses</a></li>
+                <li><a href="assignmentpost.html">Post Assignment</a></li>
+                <li><a href="login.html" class="nav-login">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div style="max-width: 1000px; margin: 40px auto; padding: 0 20px;">
+        <div style="margin-bottom: 30px;">
+            <h1 style="color: #333; margin-bottom: 10px;">Student Submissions</h1>
+            <p style="color: #333200;">View and download assignments submitted by your students.</p>
+        </div>
+
+        <div id="submissionsList"></div>
+
+        <div id="emptyState" class="empty-submissions-box" style="display: none;">
+            No submissions found yet. ☕
+        </div>
+
+        <p id="errorState" style="display: none; color: red; padding: 20px; text-align: center;"></p>
+
+        <template id="submissionCardTemplate">
+            <div class="submission-card">
+                <div class="submission-info">
+                    <h3 class="submission-title"></h3>
+            
+                    <p class="submission-student">
+                        <strong>Student:</strong> <span class="student-name-email"></span>
+                    </p>
+            
+                    <p class="submission-time">
+                        Submitted at: <span class="submitted-at-text"></span>
+                    </p>
+
+                    <div class="graded-box" style="display: none;">
+                        <span class="graded-score"></span>
+                        <p class="graded-feedback"></p>
+                    </div>
+
+                    <div class="grading-form" style="display: none;">
+                        <input type="number" class="grade-input" placeholder="Score (0-100)">
+                        <input type="text" class="feedback-input" placeholder="Feedback...">
+                        <button class="save-grade-btn">Save Grade</button>
+                    </div>
+                </div>
+                <div>
+                    <a href="#" target="_blank" download class="download-btn">
+                        📥 Download
+                    </a>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <script src="js/teacher-grade.js"></script>
+</body>
+</html>
